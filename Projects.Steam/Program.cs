@@ -1,4 +1,6 @@
 using Core.JwtBuilder;
+using Projects.Steam.Services;
+using Projects.Steam.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddJwtBuilderAuthentication(builder.Configuration);
+builder.Services.AddScoped<ISteamService, SteamService>();
+builder.Services.AddHttpClient();
+
 
 var app = builder.Build();
 
