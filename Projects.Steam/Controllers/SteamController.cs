@@ -22,8 +22,17 @@ namespace Projects.Steam.Controllers
         [Authorize]
         public async Task<IActionResult> GetGamesByDeveloper()
         {
-            var appOwnership = await _steamService.GetSteamAppsAsync();
-            return Ok(appOwnership);
+            var apps = await _steamService.GetSteamAppsAsync();
+            return Ok(apps);
+        }
+
+        [HttpGet]
+        [Route("Developer/Games/Count")]
+        [Authorize]
+        public async Task<IActionResult> GetTotalGames()
+        {
+            var apps = await _steamService.GetSteamAppsAsync();
+            return Ok(apps.Count);
         }
     }
 }

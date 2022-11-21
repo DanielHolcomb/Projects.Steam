@@ -16,30 +16,35 @@ namespace Projects.Steam.Services
             _steamWebApiKey = config.GetSection("Steam:ApiKey").Value;
         }
 
-        public async Task<AllApps> GetSteamAppsAsync()
+        public async Task<List<App>> GetSteamAppsAsync()
         {
             var url = $"https://api.steampowered.com/ISteamApps/GetAppList/v2";
             var allApps = await SteamUtils.SendSteamRequestAsync<AllApps>(_httpClientFactory, url);
-            //foreach(var app in allApps.Applist.Apps)
-            //{
-            //    var detailsUrl = $"https://store.steampowered.com/api/appdetails?appids={app.Appid}";
-            //    var thisApp = await SteamUtils.SendSteamRequestAsyncForDyna<AppDetails>(_httpClientFactory, detailsUrl);
-            //    foreach (var t in thisApp.Values)
-            //    {
-            //        if (t?.Data?.Name != null && t.Data.Name == "Kestrel")
-            //            return new AllApps()
-            //            {
-            //                Applist = new AppList()
-            //                {
-            //                    Apps = new List<App>()
-            //                    {
-            //                        app
-            //                    }
-            //                }
-            //            };
-            //    }
-            //}
-            return allApps;
+            var listOfApps = new List<App>();
+            foreach (var app in allApps.Applist.Apps)
+            {
+                if (app.Name != null && app.Name != "")
+                {
+                    listOfApps.Add(app);
+                }
+                //var detailsUrl = $"https://store.steampowered.com/api/appdetails?appids={app.Appid}";
+                //var thisApp = await SteamUtils.SendSteamRequestAsyncForDyna<AppDetails>(_httpClientFactory, detailsUrl);
+                //foreach (var t in thisApp.Values)
+                //{
+                //    if (t?.Data?.Name != null && t.Data.Name == "Kestrel")
+                //        return new AllApps()
+                //        {
+                //            Applist = new AppList()
+                //            {
+                //                Apps = new List<App>()
+                //                {
+                //                    app
+                //                }
+                //            }
+                //        };
+                //}
+            }
+            return listOfApps;
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Projects.Steam.Services.Interfaces
 {
     public interface ISteamService
     {
-        public Task<AllApps> GetSteamAppsAsync();
+        public Task<List<App>> GetSteamAppsAsync();
     }
 }
