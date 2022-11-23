@@ -39,6 +39,17 @@ namespace Projects.Steam.Services
 
         public async Task<AppDetails?> SaveSteamAppAsync(int appId)
         {
+            //hey! first check if this appId is already stored
+
+
+            //oh it is?...in that case, skip
+
+
+            //oh but you want to upsert?...lets create a different function and action for that
+
+            //by the way, to do this, you'll need to flesh out your cosmos repository
+
+
             var url = $"https://store.steampowered.com/api/appdetails?appids={appId}";
             var appRoot = await SteamUtils.SendSteamRequestAsyncForDyna<AppDetails>(_httpClientFactory, url);
             if (appRoot?[appId.ToString()] == null)

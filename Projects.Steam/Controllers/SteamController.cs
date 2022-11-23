@@ -38,6 +38,7 @@ namespace Projects.Steam.Controllers
 
         [HttpPost]
         [Route("Games/Save/{id}")]
+        [Authorize]
         public async Task<IActionResult> SaveGameById(int id)
         {
             var app = await _steamService.SaveSteamAppAsync(id);
@@ -49,6 +50,7 @@ namespace Projects.Steam.Controllers
 
         [HttpPost]
         [Route("Games/Refresh")]
+        [Authorize]
         public async Task<IActionResult> RefreshDb()
         {
             List<string> errorList = new List<string>();
@@ -66,7 +68,7 @@ namespace Projects.Steam.Controllers
                     var appDetails = await _steamService.SaveSteamAppAsync(app.Appid);
                     if (appDetails != null)
                         newAppsInsertedCount++;
-                    await Task.Delay(100);
+                    await Task.Delay(1000);
                 }
                 catch (Exception e)
                 {
