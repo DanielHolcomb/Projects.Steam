@@ -18,21 +18,32 @@ namespace Projects.Steam.Controllers
         }
 
         [HttpGet]
-        [Route("Developer/Games")]
+        [Route("Games")]
         [Authorize]
-        public async Task<IActionResult> GetGamesByDeveloper()
+        public async Task<IActionResult> GetAllGames()
         {
             var apps = await _steamService.GetSteamAppsAsync();
             return Ok(apps);
         }
 
         [HttpGet]
-        [Route("Developer/Games/Count")]
+        [Route("Games/Count")]
         [Authorize]
         public async Task<IActionResult> GetTotalGames()
         {
             var apps = await _steamService.GetSteamAppsAsync();
             return Ok(apps.Count);
+        }
+
+        [HttpPost]
+        [Route("Games/Save/{id}")]
+        public async Task<IActionResult> SaveGameById(int id)
+        {
+            var app = await _steamService.SaveSteamAppAsync(id);
+
+            if (app == null)
+                return BadRequest($"App with id: {id} does not exist");
+            return Ok(app);
         }
     }
 }

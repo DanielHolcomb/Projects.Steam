@@ -1,4 +1,5 @@
 ﻿using Projects.Steam.Models;
+using Projects.Steam.Repositories.Interfaces;
 using Projects.Steam.Services.Interfaces;
 using Projects.Steam.Utils;
 using System.Text.Json;
@@ -9,11 +10,13 @@ namespace Projects.Steam.Services
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly string _steamWebApiKey;
+        private readonly IProjectsSteamRepository _projectsSteamRepository;
 
-        public SteamService(IHttpClientFactory httpClientFactory, IConfiguration config)
+        public SteamService(IHttpClientFactory httpClientFactory, IConfiguration config, IProjectsSteamRepository projectsSteamRepository)
         {
             _httpClientFactory = httpClientFactory;
             _steamWebApiKey = config.GetSection("Steam:ApiKey").Value;
+            _projectsSteamRepository = projectsSteamRepository;
         }
 
         public async Task<List<App>> GetSteamAppsAsync()
@@ -21,30 +24,27 @@ namespace Projects.Steam.Services
             var url = $"https://api.steampowered.com/ISteamApps/GetAppList/v2";
             var allApps = await SteamUtils.SendSteamRequestAsync<AllApps>(_httpClientFactory, url);
             var listOfApps = new List<App>();
-            foreach (var app in allApps.Applist.Apps)
+            if (allApps != null)
             {
-                if (app.Name != null && app.Name != "")
+                foreach (var app in allApps.Applist.Apps)
                 {
-                    listOfApps.Add(app);
+                    if (app.Name != null && app.Name != "")
+                    {
+                        listOfApps.Add(app);
+                    }
                 }
-                //var detailsUrl = $"https://store.steampowered.com/api/appdetails?appids={app.Appid}";
-                //var thisApp = await SteamUtils.SendSteamRequestAsyncForDyna<AppDetails>(_httpClientFactory, detailsUrl);
-                //foreach (var t in thisApp.Values)
-                //{
-                //    if (t?.Data?.Name != null && t.Data.Name == "Kestrel")
-                //        return new AllApps()
-                //        {
-                //            Applist = new AppList()
-                //            {
-                //                Apps = new List<App>()
-                //                {
-                //                    app
-                //                }
-                //            }
-                //        };
-                //}
             }
             return listOfApps;
+        }
+
+        public async Task<AppDetails?> SaveSteamAppAsync(int appId)
+        {
+            var url = $"https://store.steampowered.com/api/appdetails?appids={appId}";
+            var appRoot = await SteamUtils.SendSteamRequestAsyncForDyna<AppDetails>(_httpClientFactory, url);
+            var app = appRoot[appId.ToString()];
+            app.id = appId.ToString();
+            await _projectsSteamRepository.InsertSteamAppAsync(app);
+            return app;
         }
     }
 }
