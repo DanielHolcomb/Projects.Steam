@@ -32,6 +32,7 @@ namespace Projects.Steam.Controllers
         public async Task<IActionResult> GetTotalGames()
         {
             var apps = await _steamService.GetSteamAppsAsync();
+            apps = apps.OrderBy(o => o.Appid).ToList();
             return Ok(apps.Count);
         }
 
@@ -44,6 +45,42 @@ namespace Projects.Steam.Controllers
             if (app == null)
                 return BadRequest($"App with id: {id} does not exist");
             return Ok(app);
+        }
+
+        [HttpPost]
+        [Route("Games/Refresh")]
+        public async Task<IActionResult> RefreshDb()
+        {
+            List<string> errorList = new List<string>();
+            var retries = 0;
+            var maxRetries = 100;
+            var newAppsInsertedCount = 0;
+
+            var apps = await _steamService.GetSteamAppsAsync();
+            apps = apps.OrderBy(o => o.Appid).ToList();
+
+            foreach (var app in apps)
+            {
+                try
+                {
+                    var appDetails = await _steamService.SaveSteamAppAsync(app.Appid);
+                    if (appDetails != null)
+                        newAppsInsertedCount++;
+                    await Task.Delay(100);
+                }
+                catch (Exception e)
+                {
+                    if (retries < maxRetries)
+                    {
+                        errorList.Add(e.Message);
+                        retries++;
+                    }
+                    else
+                        return BadRequest(errorList);
+                }
+            }
+
+            return Ok(newAppsInsertedCount);
         }
     }
 }

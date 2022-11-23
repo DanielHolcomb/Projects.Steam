@@ -41,9 +41,12 @@ namespace Projects.Steam.Services
         {
             var url = $"https://store.steampowered.com/api/appdetails?appids={appId}";
             var appRoot = await SteamUtils.SendSteamRequestAsyncForDyna<AppDetails>(_httpClientFactory, url);
+            if (appRoot?[appId.ToString()] == null)
+                return new AppDetails();
+
             var app = appRoot[appId.ToString()];
             app.id = appId.ToString();
-            await _projectsSteamRepository.InsertSteamAppAsync(app);
+            await _projectsSteamRepository.UpsertSteamAppAsync(app);
             return app;
         }
     }

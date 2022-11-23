@@ -13,9 +13,9 @@ namespace Projects.Steam.Repositories
             _container = client.GetContainer(databaseName, containerName);
         }
 
-        public async Task InsertSteamAppAsync(AppDetails appDetails)
+        public async Task UpsertSteamAppAsync(AppDetails appDetails)
         {
-            await _container.CreateItemAsync(appDetails);
+            await _container.UpsertItemAsync(appDetails);
         }
     }
 }

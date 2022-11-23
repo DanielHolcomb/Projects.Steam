@@ -4,6 +4,6 @@ namespace Projects.Steam.Repositories.Interfaces
 {
     public interface IProjectsSteamRepository
     {
-        public Task InsertSteamAppAsync(AppDetails appDetails);
+        public Task UpsertSteamAppAsync(AppDetails appDetails);
     }
 }

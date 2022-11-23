@@ -4,6 +4,7 @@ namespace Projects.Steam.Models
 {
     public class AppDetailsRoot
     {
+        [JsonPropertyName("AppDetails")]
         public AppDetails AppDetails { get; set; }
     }
 
@@ -13,7 +14,7 @@ namespace Projects.Steam.Models
         public string id { get; set; }
 
         [JsonPropertyName("success")]
-        public bool Success { get; set; }
+        public bool? Success { get; set; }
 
         [JsonPropertyName("data")]
         public Data Data { get; set; }
@@ -22,7 +23,7 @@ namespace Projects.Steam.Models
     public class Achievements
     {
         [JsonPropertyName("total")]
-        public int Total { get; set; }
+        public int? Total { get; set; }
 
         [JsonPropertyName("highlighted")]
         public List<Highlighted> Highlighted { get; set; }
@@ -31,7 +32,7 @@ namespace Projects.Steam.Models
     public class Category
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonPropertyName("description")]
         public string Description { get; set; }
@@ -55,13 +56,13 @@ namespace Projects.Steam.Models
         public string Name { get; set; }
 
         [JsonPropertyName("steam_appid")]
-        public int SteamAppid { get; set; }
+        public int? SteamAppid { get; set; }
 
         [JsonPropertyName("required_age")]
-        public int RequiredAge { get; set; }
+        public int? RequiredAge { get; set; }
 
         [JsonPropertyName("is_free")]
-        public bool IsFree { get; set; }
+        public bool? IsFree { get; set; }
 
         [JsonPropertyName("controller_support")]
         public string ControllerSupport { get; set; }
@@ -84,15 +85,6 @@ namespace Projects.Steam.Models
         [JsonPropertyName("website")]
         public string Website { get; set; }
 
-        [JsonPropertyName("pc_requirements")]
-        public PcRequirements PcRequirements { get; set; }
-
-        [JsonPropertyName("mac_requirements")]
-        public List<object> MacRequirements { get; set; }
-
-        [JsonPropertyName("linux_requirements")]
-        public List<object> LinuxRequirements { get; set; }
-
         [JsonPropertyName("developers")]
         public List<string> Developers { get; set; }
 
@@ -103,7 +95,7 @@ namespace Projects.Steam.Models
         public PriceOverview PriceOverview { get; set; }
 
         [JsonPropertyName("packages")]
-        public List<int> Packages { get; set; }
+        public List<int?> Packages { get; set; }
 
         [JsonPropertyName("package_groups")]
         public List<PackageGroup> PackageGroups { get; set; }
@@ -163,7 +155,7 @@ namespace Projects.Steam.Models
     public class Movie
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -178,7 +170,7 @@ namespace Projects.Steam.Models
         public Mp4 Mp4 { get; set; }
 
         [JsonPropertyName("highlight")]
-        public bool Highlight { get; set; }
+        public bool? Highlight { get; set; }
     }
 
     public class Mp4
@@ -208,7 +200,7 @@ namespace Projects.Steam.Models
         public string SaveText { get; set; }
 
         [JsonPropertyName("display_type")]
-        public int DisplayType { get; set; }
+        public int? DisplayType { get; set; }
 
         [JsonPropertyName("is_recurring_subscription")]
         public string IsRecurringSubscription { get; set; }
@@ -217,22 +209,16 @@ namespace Projects.Steam.Models
         public List<Sub> Subs { get; set; }
     }
 
-    public class PcRequirements
-    {
-        [JsonPropertyName("minimum")]
-        public string Minimum { get; set; }
-    }
-
     public class Platforms
     {
         [JsonPropertyName("windows")]
-        public bool Windows { get; set; }
+        public bool? Windows { get; set; }
 
         [JsonPropertyName("mac")]
-        public bool Mac { get; set; }
+        public bool? Mac { get; set; }
 
         [JsonPropertyName("linux")]
-        public bool Linux { get; set; }
+        public bool? Linux { get; set; }
     }
 
     public class PriceOverview
@@ -241,13 +227,13 @@ namespace Projects.Steam.Models
         public string Currency { get; set; }
 
         [JsonPropertyName("initial")]
-        public int Initial { get; set; }
+        public int? Initial { get; set; }
 
         [JsonPropertyName("final")]
-        public int Final { get; set; }
+        public int? Final { get; set; }
 
         [JsonPropertyName("discount_percent")]
-        public int DiscountPercent { get; set; }
+        public int? DiscountPercent { get; set; }
 
         [JsonPropertyName("initial_formatted")]
         public string InitialFormatted { get; set; }
@@ -259,7 +245,7 @@ namespace Projects.Steam.Models
     public class ReleaseDate
     {
         [JsonPropertyName("coming_soon")]
-        public bool ComingSoon { get; set; }
+        public bool? ComingSoon { get; set; }
 
         [JsonPropertyName("date")]
         public string Date { get; set; }
@@ -268,7 +254,7 @@ namespace Projects.Steam.Models
     public class Screenshot
     {
         [JsonPropertyName("id")]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonPropertyName("path_thumbnail")]
         public string PathThumbnail { get; set; }
@@ -280,13 +266,13 @@ namespace Projects.Steam.Models
     public class Sub
     {
         [JsonPropertyName("packageid")]
-        public int Packageid { get; set; }
+        public int? Packageid { get; set; }
 
         [JsonPropertyName("percent_savings_text")]
         public string PercentSavingsText { get; set; }
 
         [JsonPropertyName("percent_savings")]
-        public int PercentSavings { get; set; }
+        public int? PercentSavings { get; set; }
 
         [JsonPropertyName("option_text")]
         public string OptionText { get; set; }
@@ -298,10 +284,10 @@ namespace Projects.Steam.Models
         public string CanGetFreeLicense { get; set; }
 
         [JsonPropertyName("is_free_license")]
-        public bool IsFreeLicense { get; set; }
+        public bool? IsFreeLicense { get; set; }
 
         [JsonPropertyName("price_in_cents_with_discount")]
-        public int PriceInCentsWithDiscount { get; set; }
+        public int? PriceInCentsWithDiscount { get; set; }
     }
 
     public class SupportInfo
