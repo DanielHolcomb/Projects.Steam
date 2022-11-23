@@ -68,7 +68,7 @@ namespace Projects.Steam.Controllers
                     var appDetails = await _steamService.SaveSteamAppAsync(app.Appid);
                     if (appDetails != null)
                         newAppsInsertedCount++;
-                    await Task.Delay(1000);
+                    await Task.Delay(5000);
                 }
                 catch (Exception e)
                 {
