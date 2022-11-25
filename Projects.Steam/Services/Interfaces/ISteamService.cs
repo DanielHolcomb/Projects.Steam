@@ -8,5 +8,7 @@ namespace Projects.Steam.Services.Interfaces
         public Task<List<App>> GetSteamAppsAsync();
 
         public Task<AppDetails> SaveSteamAppAsync(int id);
+
+        public Task<AppDetails> GetSteamAppByAppId(int appId);
     }
 }

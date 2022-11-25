@@ -60,5 +60,12 @@ namespace Projects.Steam.Services
             await _projectsSteamRepository.UpsertSteamAppAsync(app);
             return app;
         }
+
+        public async Task<AppDetails> GetSteamAppByAppId(int appId)
+        {
+            var url = $"https://store.steampowered.com/api/appdetails?appids={appId}";
+            var appRoot = await SteamUtils.SendSteamRequestAsyncForDyna<AppDetails>(_httpClientFactory, url);
+            return appRoot[appId.ToString()];
+        }
     }
 }

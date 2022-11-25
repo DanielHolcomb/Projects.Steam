@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Projects.Steam.Models;
 using Projects.Steam.Services.Interfaces;
 
 namespace Projects.Steam.Controllers
@@ -34,6 +35,21 @@ namespace Projects.Steam.Controllers
             var apps = await _steamService.GetSteamAppsAsync();
             apps = apps.OrderBy(o => o.Appid).ToList();
             return Ok(apps.Count);
+        }
+
+        [HttpGet]
+        [Route("Game")]
+        [Authorize]
+        public async Task<IActionResult> GetGamesByAppIds([FromQuery(Name = "appId")] List<int> appIds)
+        {
+            var apps = new List<AppDetails>();
+
+            foreach(int appId in appIds)
+            {
+                var app = await _steamService.GetSteamAppByAppId(appId);
+                apps.Add(app);
+            }
+            return Ok(apps);
         }
 
         [HttpPost]
